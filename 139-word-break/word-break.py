@@ -1,24 +1,19 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         n = len(s)
-        dp = [-1] * (n+1)
+        dp = [False] * (n+1)
+        dp[0] = True
         sety = set(wordDict)
 
-        def solve(start):
+        for end in range(1,n+1):
+            for begin in range(0,end+1):
+                word = s[begin:end]
 
-            if start == len(s):
-                return True
+                if word in sety and dp[begin]:
+                    dp[end] = True
+                    break
+        return dp[n]
 
-            if dp[start] != -1:
-                return dp[start] == 1
 
-            for end in range(start+1,n+1):
-                word = s[start:end]
 
-                if word in sety and solve(end):
-                    dp[start] = 1
-                    return True
-
-            dp[start] = 0
-            return False
-        return solve(0)
+        
