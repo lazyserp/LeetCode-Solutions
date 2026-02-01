@@ -1,26 +1,22 @@
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
         ans = []
+        stack = []
+        map = {}
+
+        for i in range(len(nums2)-1,-1,-1):
+            while( stack and stack[-1] < nums2[i]):
+                stack.pop()
+            
+            if not stack:
+                map[nums2[i]] = -1
+            else:
+                map[nums2[i]] = stack[-1]
+
+            stack.append(nums2[i])
+
         for i in nums1:
-            for j in range(0,len(nums2)):
-                term = nums2[j]
-                if i == term:
-                    found = True
-                    max = term
-                    for p in range(j,len(nums2)):
-                        if (nums2[p] > max ):
-                            max = nums2[p]
-                            break
-                    if (max == term):
-                        ans.append(-1)
-                        break
-                    else:
-                        ans.append(max)
-                        break
+            ans.append(map[i])
 
-        return ans       
-
-
-
-
+        return ans
         
