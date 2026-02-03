@@ -1,40 +1,38 @@
 class Solution {
 public:
-    bool isValid(vector<vector<int>>& image, int x, int y)
+    int m;
+    int n ;
+
+    void DFS(int i, int j ,vector<vector<int>> &image,int oldColor , int newColor )
     {
-        int n = image.size();
-        int m = image[0].size();
+        if ( i < 0 || i >= m) return ;
+        if ( j < 0 || j >= n) return ;
+        if ( image[i][j] != oldColor) return ;
 
-        if ( x < 0 || x >= n) return false;
-        if ( y < 0 || y >= m) return false;
-
-        return true;
-    }
-    
-    // For x,y make it new color
-    void solve(vector<vector<int>>& image, int x, int y, int OrigColor,int newColor)
-    {   
-        if (!isValid(image,x,y)) return;
-        if ( OrigColor == newColor) return;
-
-        if ( image[x][y] == OrigColor)
+        if ( image[i][j] == oldColor)
         {
-            image[x][y] = newColor;
+            image[i][j] = newColor;
+            DFS(i+1,j,image,oldColor,newColor);
+            DFS(i,j-1,image,oldColor,newColor);
+            DFS(i-1,j,image,oldColor,newColor);
+            DFS(i,j+1,image,oldColor,newColor);
 
-            solve(image,x+1,y,OrigColor,newColor);
-            solve(image,x,y-1,OrigColor,newColor);
-            solve(image,x-1,y,OrigColor,newColor);
-            solve(image,x,y+1,OrigColor,newColor);
+
         }
+        
 
     }
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) 
     {
-        int origColor = image[sr][sc];
+        m = image.size();
+        n = image[0].size();
+        int oldColor = image[sr][sc];
 
-        solve(image,sr,sc,origColor,color);
+        if (oldColor == color) return image;
+        DFS(sr,sc,image,oldColor,color);
 
         return image;
+
         
     }
 };
