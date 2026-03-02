@@ -1,11 +1,10 @@
 class Solution:
     def sumOddLengthSubarrays(self, arr: List[int]) -> int:
         ans = 0
-        for i in range(0,len(arr)):
-            for j in range(i,len(arr)):
-                if (j-i+1) % 2 != 0:
-                    ans += sum(arr[i:j+1])
-        
+        n = len(arr)
+        for i in range(len(arr)):
+            contri = math.ceil(((i+1)*(n-i) )/ 2)
+            ans += arr[i] * contri
         return ans
-        
+
         
