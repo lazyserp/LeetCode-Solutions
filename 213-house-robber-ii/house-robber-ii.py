@@ -1,23 +1,23 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-
         if len(nums) == 1:
             return nums[0]
+        
+        def helper(A):
+            n = len(A)
 
-        def LinearRob(nums):
-            dp  = [0] *( len(nums)+1)
-            dp[1] = max(dp[0],nums[0])
+            dp = [0] * (n+1)
+            dp[1] = max(0,A[0])
 
-            for i in range(2,len(nums)+1):
-                dp[i] = max(nums[i-1] + dp[i-2],dp[i-1])
+            for i in range(2,n+1):
+                dp[i] = max(A[i-1] + dp[i-2] , dp[i-1] )
 
-            return max(dp)
+            return dp[n]
 
-        withoutFirst = LinearRob(nums[1:])
-        withoutLast = LinearRob(nums[:-1])
+        withFirst = helper(nums[:-1])
+        withoutFirst = helper(nums[1:])
 
-
-        return max(withoutFirst,withoutLast)
+        return (max(withFirst,withoutFirst))
 
 
         
