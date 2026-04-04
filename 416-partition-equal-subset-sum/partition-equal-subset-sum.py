@@ -1,26 +1,25 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        arrSum  = sum(nums)
-        n = len(nums)
+        sumCheck = sum(nums)
 
-        if ( arrSum % 2 != 0):
+        if sumCheck%2 != 0:
             return False
 
-        newTar = arrSum // 2;
+        n = len(nums)
+        reqSum = sumCheck // 2
+
+        dp = [ [False for _ in range(reqSum+1)] for _ in range(n+1)]
         
-        dp = [ [False] * (newTar+1) for _ in range(n+1)]
-        
-        for i in range(1,n+1):
+        for i in range(0,n+1):
             dp[i][0] = True
 
-        for i in range(1 , n+1):
-            for s in range(1, newTar+1):
-                #skip
-                dp[i][s] = dp[i-1][s]
+        for i in range(1,n+1):
+            for j in range(1,reqSum+1):
 
-                if ( nums[i-1] <= s):
-                    dp[i][s] = dp[i-1][s] or dp[i-1][s-nums[i-1]]
+                if nums[i-1] <= j:
+                    dp[i][j] = dp[i-1][j-nums[i-1]] or dp[i-1][j]
+                else:
+                    dp[i][j] = dp[i-1][j]
 
-        return dp[n][newTar]
-
+        return dp[n][reqSum]
         
