@@ -1,49 +1,45 @@
 class Solution {
-    public int firstStableIndex(int[] nums, int k) 
-    {
+    public int firstStableIndex(int[] nums, int k) {
         int n = nums.length;
-        int[] mx = new int[n];
-        int maxy = nums[0];
-        mx[0] = maxy;
+        int[] maxEleArr = new int[n]; 
+        int[] minEleArr = new int[n];
+        int maxEle = nums[0];
+        int minEle = nums[n-1];
+        int smallStableEleIndex = -1;
 
-        for(int i=1; i < n ;i++)
-        {
-            if ( nums[i] > maxy)
-            {
-                maxy = nums[i];
+        // [0,0], k = 0
+        // mx=    [0,0]
+        for (int i = 0; i < n; i++) {
+            if (nums[i] > maxEle) {
+                maxEle = nums[i];
+                maxEleArr[i] = maxEle;
+            } else {
+                maxEleArr[i] = maxEle;
             }
-            mx[i] = maxy;
-
         }
-
-        int[] mn = new int[n];
-        int miny = nums[n-1];
-        mn[n-1] = miny;
-
-        for(int i=n-2; i >=0 ;i--)
-        {
-            if ( nums[i] < miny)
-            {
-                miny = nums[i];
+        // [5,0,1,4], k = 3
+        // min = 0
+        // mn = [0,0,1,4]
+        for (int i = n - 1; i >= 0; i--) {
+            if (nums[i] < minEle) { 
+                minEle = nums[i];
+                minEleArr[i] = minEle;
+            } else {
+                minEleArr[i] = minEle;
             }
-            mn[i] = miny;
-
         }
-
-        int ans = -1;
-        for(int i=0 ; i < n ; i++ )
-        {
-            int score = mx[i] - mn[i];
-            if ( score <= k)
-            {
-                ans = i;
+    // mx=    [5,5,5,5]
+    // mn =   [0,0,1,4]
+    // k = 3
+// smallStableEle =
+// smallStableEleIndex = 
+        for (int i = 0; i < n; i++) {
+            if (maxEleArr[i] - minEleArr[i] <= k ) {
+                smallStableEleIndex = i;
                 break;
             }
         }
 
-        return ans;
-
-
-        
+        return smallStableEleIndex;
     }
 }
